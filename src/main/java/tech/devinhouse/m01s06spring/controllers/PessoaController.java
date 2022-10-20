@@ -17,10 +17,56 @@ public class PessoaController {
         return pessoas;
     }
 
+    @GetMapping(path = "{id}")
+    public Pessoa getId(@PathVariable Integer id) {
+        for (Pessoa p : pessoas) {
+            if (p.getId() == id) {
+                return p;
+            }
+        }
+        return null;
+    }
+
     @PostMapping
     public Pessoa post(@RequestBody Pessoa pessoa) {
         pessoas.add(pessoa);
         return pessoa;
+    }
+
+    @PutMapping(path = "{id}")
+    public Pessoa put(@PathVariable Integer id, @RequestBody Pessoa pessoa) {
+
+        Pessoa pessoaEditada = null;
+        for (Pessoa p : pessoas) {
+            if (p.getId() == id) {
+                pessoaEditada = p;
+                break;
+            }
+        }
+
+        if (pessoaEditada != null) {
+            pessoaEditada.setNome(pessoa.getNome());
+            pessoaEditada.setIdade(pessoa.getIdade());
+        }
+
+        return pessoaEditada;
+    }
+
+    @DeleteMapping
+    public void delete(Integer id) {
+
+        Pessoa pessoaRemover = null;
+        for (Pessoa p : pessoas) {
+            if (p.getId() == id) {
+                pessoaRemover = p;
+                break;
+            }
+        }
+
+        if (pessoaRemover != null) {
+            pessoas.remove(pessoaRemover);
+        }
+
     }
 
 }
